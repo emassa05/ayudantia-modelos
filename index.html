@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tres modelos · Ayudantía</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f4f3ef;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --ink-3: #8a8984;
+  --rule: #e2e0da;
+  --grid: #ecebe6;
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
+  --neutral: #a9a7a0;
+  --serif: "Newsreader", Georgia, serif;
+  --sans: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121211;
+    --surface: #1a1a19;
+    --ink: #f0efec;
+    --ink-2: #c3c2b7;
+    --ink-3: #8b8a83;
+    --rule: #2c2c2a;
+    --grid: #252524;
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
+    --neutral: #6b6a65;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121211;
+  --surface: #1a1a19;
+  --ink: #f0efec;
+  --ink-2: #c3c2b7;
+  --ink-3: #8b8a83;
+  --rule: #2c2c2a;
+  --grid: #252524;
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --neutral: #6b6a65;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.55 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* Top bar */
+.top {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+.top .wrap { display: flex; align-items: center; gap: 28px; height: 56px; }
+.brand { font: 500 13px var(--mono); letter-spacing: .02em; color: var(--ink-2); margin-right: auto; white-space: nowrap; }
+.top nav { display: flex; gap: 22px; }
+.top nav a { text-decoration: none; font-size: 14px; color: var(--ink-2); }
+.top nav a:hover { color: var(--ink); }
+.icon-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--rule); background: var(--surface); color: var(--ink);
+  display: grid; place-items: center; cursor: pointer;
+}
+.icon-btn svg { width: 16px; height: 16px; }
+
+/* Hero */
+.hero { padding: 0 0 56px; }
+.hero h1 {
+  font: 400 clamp(40px, 6.4vw, 76px)/1.02 var(--serif);
+  letter-spacing: -.02em; margin: 0 0 20px; max-width: 14ch;
+}
+.hero p { margin: 0; color: var(--ink-2); font-size: 17px; }
+
+/* Overview */
+.overview {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--ink);
+}
+.overview a { text-decoration: none; padding: 22px 24px 26px 0; display: block; }
+.overview a + a { padding-left: 24px; border-left: 1px solid var(--rule); }
+.overview .num { font: 500 12px var(--mono); color: var(--ink-3); }
+.overview h3 { font: 400 28px/1.15 var(--serif); margin: 10px 0 4px; }
+.overview .q { font: 400 19px/1.3 var(--serif); font-style: italic; color: var(--ink-2); margin: 0 0 18px; }
+.overview dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 13.5px; }
+.overview dt { color: var(--ink-3); }
+.overview dd { margin: 0; }
+.overview a:hover h3 { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+
+/* Sections */
+.screen {
+  min-height: 100vh; min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 0 36px;
+  scroll-snap-align: start;
+}
+.demo-head { display: flex; align-items: baseline; gap: 18px; border-top: 1px solid var(--ink); padding-top: 18px; margin-bottom: 8px; }
+.demo-head .num { font: 500 12px var(--mono); color: var(--ink-3); }
+.demo-head h2 { font: 400 40px/1.1 var(--serif); margin: 0; letter-spacing: -.01em; }
+.hint { color: var(--ink-2); margin: 0 0 20px; max-width: 62ch; }
+
+.context { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin: 18px 0 32px; }
+.context h4 { font: 500 12px var(--mono); color: var(--ink-3); margin: 0 0 6px; }
+.context p { margin: 0; font-size: 14px; color: var(--ink-2); }
+.context b { color: var(--ink); font-weight: 500; }
+
+.demo-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 32px; align-items: start; }
+.chart {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 6px;
+  padding: 12px; position: relative;
+}
+.chart svg { display: block; width: 100%; height: auto; touch-action: none; user-select: none; }
+.panel { display: flex; flex-direction: column; gap: 26px; }
+
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 16px; }
+.stat .label { font-size: 12.5px; color: var(--ink-3); }
+.stat .value { font: 400 30px/1.1 var(--mono); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.stat .value.small { font-size: 20px; }
+.eq { font: 400 15px var(--mono); color: var(--ink-2); padding: 12px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn {
+  font: 500 13.5px var(--sans); color: var(--ink);
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 999px;
+  padding: 7px 14px; cursor: pointer; text-decoration: none;
+}
+.btn:hover { border-color: var(--ink-3); }
+.btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn:disabled { opacity: .45; cursor: default; }
+.check { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
+.check input { accent-color: var(--ink); width: 15px; height: 15px; }
+
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 2px; background: var(--surface); }
+.seg button { font: 500 13px var(--mono); border: 0; background: none; color: var(--ink-2); padding: 5px 13px; border-radius: 999px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.field-label { font-size: 12.5px; color: var(--ink-3); margin-bottom: 6px; }
+
+/* Confusion matrix */
+.cm { display: grid; grid-template-columns: auto 1fr 1fr; gap: 2px; font-size: 12.5px; }
+.cm .h { color: var(--ink-3); padding: 4px 6px; display: flex; align-items: end; }
+.cm .h.row { align-items: center; justify-content: end; text-align: right; }
+.cm .cell { background: var(--bg); border-radius: 4px; padding: 10px 12px; }
+.cm .cell b { display: block; font: 400 24px/1.1 var(--mono); font-variant-numeric: tabular-nums; }
+.cm .cell span { color: var(--ink-3); }
+.cm .cell.ok { outline: 1px solid var(--rule); outline-offset: -1px; background: var(--surface); }
+
+.bars { display: flex; flex-direction: column; gap: 12px; }
+.bar-row { display: grid; grid-template-columns: 78px 1fr 46px; align-items: center; gap: 10px; font-size: 13.5px; }
+.bar-row .track { height: 6px; background: var(--grid); border-radius: 3px; overflow: hidden; }
+.bar-row .fill { height: 100%; background: var(--ink); border-radius: 3px; transition: width .12s; }
+.bar-row .v { font: 400 13.5px var(--mono); text-align: right; font-variant-numeric: tabular-nums; }
+
+input[type="range"] { width: 100%; accent-color: var(--ink); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); padding: 4px 4px 0; }
+.legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+.legend i.ring { background: none !important; border: 2px solid var(--ink-3); }
+
+.status { font: 400 13px var(--mono); color: var(--ink-2); }
+.mini-title { font-size: 12.5px; color: var(--ink-3); margin-bottom: 4px; }
+
+/* Notebooks */
+.nb-list { border-top: 1px solid var(--ink); }
+.nb {
+  display: grid; grid-template-columns: 40px 1.2fr 1.4fr auto; gap: 16px; align-items: center;
+  padding: 18px 0; border-bottom: 1px solid var(--rule);
+}
+.nb .num { font: 500 12px var(--mono); color: var(--ink-3); }
+.nb .name { font: 400 22px var(--serif); }
+.nb .data { color: var(--ink-2); font-size: 14px; }
+.nb .links { display: flex; gap: 8px; }
+.note { color: var(--ink-3); font-size: 13.5px; margin: 18px 0 0; }
+
+footer { padding: 0 0 32px; color: var(--ink-3); font-size: 13px; }
+
+/* Tooltip */
+.tip {
+  position: fixed; pointer-events: none; z-index: 20;
+  background: var(--ink); color: var(--bg);
+  font: 400 12.5px/1.45 var(--mono); padding: 7px 10px; border-radius: 5px;
+  opacity: 0; transform: translateY(4px); transition: opacity .1s, transform .1s;
+  white-space: nowrap;
+}
+.tip.on { opacity: 1; transform: none; }
+
+/* SVG */
+.axis text, .tick-label { fill: var(--ink-3); font: 400 11px var(--mono); }
+.axis .axis-title, .axis-title { fill: var(--ink-2); font: 400 12px var(--sans); }
+.gridline { stroke: var(--grid); stroke-width: 1; }
+.baseline { stroke: var(--ink-3); stroke-width: 1; }
+.pt { cursor: grab; }
+.pt:active { cursor: grabbing; }
+
+@media (max-width: 860px) {
+  .demo-grid { grid-template-columns: 1fr; }
+  .overview, .context { grid-template-columns: 1fr; }
+  .context { gap: 18px; }
+  .overview a, .overview a + a { padding: 20px 0; border-left: 0; border-top: 1px solid var(--rule); }
+  .overview a:first-child { border-top: 0; }
+  .top nav { display: none; }
+  .nb { grid-template-columns: 32px 1fr; }
+  .nb .data, .nb .links { grid-column: 2; }
+}
+@media (max-width: 520px) {
+  .wrap { padding: 0 16px; }
+  .hero { padding: 56px 0 40px; }
+  .demo-head h2 { font-size: 32px; }
+  .chart { padding: 6px; }
+  .chart .axis text, .chart .tick-label { font-size: 17px; }
+  .chart .axis .axis-title { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <span class="brand">Ingeniería de Datos — Ayudantía</span>
+    <nav>
+      <a href="#regresion">Regresión</a>
+      <a href="#clasificacion">Clasificación</a>
+      <a href="#clustering">Clustering</a>
+      <a href="#notebooks">Notebooks</a>
+    </nav>
+    <button class="icon-btn" id="theme" aria-label="Cambiar tema">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="screen">
+  <div class="hero">
+    <h1>Regresión, clasificación y clustering</h1>
+    <p>Tres modelos, tres preguntas distintas sobre los datos.</p>
+  </div>
+
+  <div class="overview">
+    <a href="#regresion">
+      <span class="num">01</span>
+      <h3>Regresión</h3>
+      <p class="q">¿Cuánto?</p>
+      <dl>
+        <dt>Salida</dt><dd>Un número</dd>
+        <dt>Ejemplo</dt><dd>Precio de una vivienda</dd>
+        <dt>Métricas</dt><dd>MAE · RMSE · R²</dd>
+        <dt>Tipo</dt><dd>Supervisado</dd>
+      </dl>
+    </a>
+    <a href="#clasificacion">
+      <span class="num">02</span>
+      <h3>Clasificación</h3>
+      <p class="q">¿Cuál?</p>
+      <dl>
+        <dt>Salida</dt><dd>Una categoría</dd>
+        <dt>Ejemplo</dt><dd>¿Sobrevivió al Titanic?</dd>
+        <dt>Métricas</dt><dd>Accuracy · Precision · Recall · F1</dd>
+        <dt>Tipo</dt><dd>Supervisado</dd>
+      </dl>
+    </a>
+    <a href="#clustering">
+      <span class="num">03</span>
+      <h3>Clustering</h3>
+      <p class="q">¿Qué grupos hay?</p>
+      <dl>
+        <dt>Salida</dt><dd>Un grupo por fila</dd>
+        <dt>Ejemplo</dt><dd>Especies de pingüinos</dd>
+        <dt>Métricas</dt><dd>Inercia · Silhouette</dd>
+        <dt>Tipo</dt><dd>No supervisado</dd>
+      </dl>
+    </a>
+  </div>
+  </div>
+
+  <!-- 01 Regresión -->
+  <section class="demo screen" id="regresion">
+    <div class="demo-head"><span class="num">01</span><h2>Regresión lineal</h2></div>
+    <div class="context">
+      <div><h4>Qué es</h4><p>Predice un <b>valor numérico</b> a partir de otras variables. La regresión lineal busca la recta que hace más pequeña la suma de los errores al cuadrado (mínimos cuadrados).</p></div>
+      <div><h4>Cómo se mide</h4><p>El <b>residuo</b> es la distancia vertical entre un punto y la recta. <b>RMSE</b> resume esos errores en las unidades de y; <b>R²</b> indica qué parte de la variación explica el modelo (1 = perfecto, 0 = igual que predecir el promedio).</p></div>
+      <div><h4>Dónde se usa</h4><p>Precio de viviendas, demanda de productos, tiempos de entrega, consumo eléctrico. En el notebook se compara con Random Forest, que capta relaciones no lineales.</p></div>
+    </div>
+    <p class="hint">Arrastra los puntos y mira cómo se ajusta la recta. Clic en un espacio vacío agrega un punto; doble clic lo borra.</p>
+    <div class="demo-grid">
+      <div class="chart"><svg id="reg-svg" viewBox="0 0 640 380" aria-label="Gráfico de dispersión con recta de regresión"></svg></div>
+      <div class="panel">
+        <div class="stats">
+          <div class="stat"><div class="label">R²</div><div class="value" id="reg-r2">—</div></div>
+          <div class="stat"><div class="label">RMSE</div><div class="value" id="reg-rmse">—</div></div>
+          <div class="stat"><div class="label">Pendiente</div><div class="value small" id="reg-m">—</div></div>
+          <div class="stat"><div class="label">Puntos</div><div class="value small" id="reg-n">—</div></div>
+        </div>
+        <div class="eq" id="reg-eq">ŷ = —</div>
+        <label class="check"><input type="checkbox" id="reg-res" checked> Mostrar residuos</label>
+        <div class="controls">
+          <button class="btn" id="reg-outlier">Agregar outlier</button>
+          <button class="btn" id="reg-reset">Reiniciar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 Clasificación -->
+  <section class="demo screen" id="clasificacion">
+    <div class="demo-head"><span class="num">02</span><h2>Umbral de decisión</h2></div>
+    <div class="context">
+      <div><h4>Qué es</h4><p>Predice una <b>categoría</b>. Modelos como la regresión logística entregan una probabilidad entre 0 y 1, y un <b>umbral</b> la convierte en una decisión: sí o no.</p></div>
+      <div><h4>Cómo se mide</h4><p><b>Accuracy</b> es el % de aciertos, pero engaña si una clase domina. <b>Precision</b>: de los que predijo «sí», cuántos lo eran. <b>Recall</b>: de los «sí» reales, cuántos encontró. <b>F1</b> equilibra ambas.</p></div>
+      <div><h4>Dónde se usa</h4><p>Fraude, spam, diagnóstico médico, abandono de clientes. Bajar el umbral sube el recall a costa de la precision: en un examen médico conviene; en un filtro de spam, no.</p></div>
+    </div>
+    <p class="hint">Cada punto es un pasajero, ubicado según la probabilidad de sobrevivir que le asigna el modelo. Mueve el umbral: a la derecha, el modelo predice que sobrevive.</p>
+    <div class="demo-grid">
+      <div class="chart">
+        <svg id="cls-svg" viewBox="0 0 640 360" aria-label="Probabilidades predichas por clase real"></svg>
+        <div class="legend">
+          <span><i style="background:var(--s1)"></i>Sobrevivió</span>
+          <span><i style="background:var(--s2)"></i>No sobrevivió</span>
+          <span><i class="ring"></i>Error del modelo</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div>
+          <div class="field-label">Umbral <span id="cls-t-label" class="status"></span></div>
+          <input type="range" id="cls-t" min="0.05" max="0.95" step="0.01" value="0.5">
+        </div>
+        <div class="cm" id="cls-cm"></div>
+        <div class="bars" id="cls-bars"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 Clustering -->
+  <section class="demo screen" id="clustering">
+    <div class="demo-head"><span class="num">03</span><h2>K-Means paso a paso</h2></div>
+    <div class="context">
+      <div><h4>Qué es</h4><p>Agrupa datos <b>sin etiquetas</b>: no hay respuesta correcta con la que entrenar. K-Means divide los datos en k grupos, cada uno representado por su <b>centroide</b>, el promedio de sus puntos.</p></div>
+      <div><h4>Cómo se mide</h4><p><b>Inercia</b>: suma de las distancias al cuadrado de cada punto a su centroide. Siempre baja al aumentar k, por eso se busca el «codo». Antes se <b>estandarizan</b> las variables, porque K-Means usa distancias.</p></div>
+      <div><h4>Dónde se usa</h4><p>Segmentación de clientes, agrupación de documentos, compresión de imágenes. El resultado depende de los centroides iniciales: prueba «Nuevos centroides» y compara la inercia.</p></div>
+    </div>
+    <p class="hint">Cada punto es un pingüino. El algoritmo no conoce la especie: alterna entre asignar cada punto al centroide más cercano y mover cada centroide al promedio de su grupo.</p>
+    <div class="demo-grid">
+      <div class="chart"><svg id="km-svg" viewBox="0 0 640 380" aria-label="Puntos agrupados por K-Means"></svg></div>
+      <div class="panel">
+        <div>
+          <div class="field-label">Número de clusters (k)</div>
+          <div class="seg" id="km-k">
+            <button data-k="2" aria-pressed="false">2</button>
+            <button data-k="3" aria-pressed="true">3</button>
+          </div>
+        </div>
+        <div class="controls">
+          <button class="btn primary" id="km-step">Asignar puntos</button>
+          <button class="btn" id="km-run">Ejecutar</button>
+          <button class="btn" id="km-init">Nuevos centroides</button>
+          <button class="btn" id="km-data">Nuevos datos</button>
+        </div>
+        <div class="status" id="km-status"></div>
+        <div>
+          <div class="mini-title">Método del codo · inercia según k</div>
+          <svg id="km-elbow" viewBox="0 0 300 170" aria-label="Inercia según número de clusters"></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notebooks -->
+  <section class="demo screen" id="notebooks">
+    <div class="demo-head"><span class="num">04</span><h2>Notebooks</h2></div>
+    <div class="nb-list" style="margin-top:20px">
+      <div class="nb">
+        <span class="num">01</span><span class="name">Regresión</span>
+        <span class="data">California Housing · Lineal vs. Random Forest</span>
+        <span class="links"><a class="btn primary" href="https://colab.research.google.com/github/emassa05/ayudantia-modelos/blob/main/01_regresion.ipynb" target="_blank" rel="noopener">Abrir en Colab</a><a class="btn" href="https://github.com/emassa05/ayudantia-modelos/blob/main/con_resultados/01_regresion.ipynb" target="_blank" rel="noopener">Ver resultados</a><a class="btn" href="01_regresion.ipynb" download>Descargar</a></span>
+      </div>
+      <div class="nb">
+        <span class="num">02</span><span class="name">Clasificación</span>
+        <span class="data">Titanic · Logística vs. Random Forest</span>
+        <span class="links"><a class="btn primary" href="https://colab.research.google.com/github/emassa05/ayudantia-modelos/blob/main/02_clasificacion.ipynb" target="_blank" rel="noopener">Abrir en Colab</a><a class="btn" href="https://github.com/emassa05/ayudantia-modelos/blob/main/con_resultados/02_clasificacion.ipynb" target="_blank" rel="noopener">Ver resultados</a><a class="btn" href="02_clasificacion.ipynb" download>Descargar</a></span>
+      </div>
+      <div class="nb">
+        <span class="num">03</span><span class="name">Clustering</span>
+        <span class="data">Palmer Penguins · K-Means</span>
+        <span class="links"><a class="btn primary" href="https://colab.research.google.com/github/emassa05/ayudantia-modelos/blob/main/03_clustering.ipynb" target="_blank" rel="noopener">Abrir en Colab</a><a class="btn" href="https://github.com/emassa05/ayudantia-modelos/blob/main/con_resultados/03_clustering.ipynb" target="_blank" rel="noopener">Ver resultados</a><a class="btn" href="03_clustering.ipynb" download>Descargar</a></span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">Ingeniería de Datos · 2026</footer>
+
+<div class="tip" id="tip"></div>
+
+<script>
+const NS = "http://www.w3.org/2000/svg";
+const $ = (id) => document.getElementById(id);
+const el = (tag, attrs = {}, parent) => {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+};
+const fmt = (v, d = 2) => (Number.isFinite(v) ? v.toFixed(d).replace(".", ",") : "—");
+
+function rng(seed) {
+  return () => {
+    seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function gauss(r) {
+  let u = 0, v = 0;
+  while (u === 0) u = r();
+  while (v === 0) v = r();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+function svgPoint(svg, evt) {
+  const p = svg.createSVGPoint();
+  p.x = evt.clientX; p.y = evt.clientY;
+  return p.matrixTransform(svg.getScreenCTM().inverse());
+}
+
+// Tooltip
+const tip = $("tip");
+function showTip(evt, html) {
+  tip.innerHTML = html;
+  tip.classList.add("on");
+  const w = tip.offsetWidth;
+  let x = evt.clientX + 14, y = evt.clientY - 38;
+  if (x + w > innerWidth - 8) x = evt.clientX - w - 14;
+  tip.style.left = x + "px"; tip.style.top = Math.max(8, y) + "px";
+}
+const hideTip = () => tip.classList.remove("on");
+
+// Axes helper
+function axes(svg, box, xs, ys, xTitle, yTitle) {
+  const g = el("g", { class: "axis" }, svg);
+  ys.ticks.forEach((t) => {
+    const y = ys.map(t);
+    el("line", { x1: box.l, x2: box.r, y1: y, y2: y, class: "gridline" }, g);
+    el("text", { x: box.l - 10, y: y + 4, "text-anchor": "end" }, g).textContent = String(t).replace(".", ",");
+  });
+  xs.ticks.forEach((t) => {
+    const x = xs.map(t);
+    el("text", { x, y: box.b + 20, "text-anchor": "middle" }, g).textContent = String(t).replace(".", ",");
+  });
+  el("line", { x1: box.l, x2: box.r, y1: box.b, y2: box.b, class: "baseline" }, g);
+  el("text", { x: (box.l + box.r) / 2, y: box.b + 44, "text-anchor": "middle", class: "axis-title" }, g).textContent = xTitle;
+  if (yTitle) {
+    el("text", { x: -(box.t + box.b) / 2, y: 16, transform: "rotate(-90)", "text-anchor": "middle", class: "axis-title" }, g).textContent = yTitle;
+  }
+  return g;
+}
+const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0);
+
+// Theme
+(function theme() {
+  const root = document.documentElement;
+  try { const t = localStorage.getItem("theme"); if (t) root.dataset.theme = t; } catch (e) {}
+  $("theme").addEventListener("click", () => {
+    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+  });
+})();
+
+/* ------------------------------------------------ 01 Regresión */
+(function regression() {
+  const svg = $("reg-svg");
+  const box = { l: 60, r: 620, t: 16, b: 320 };
+  const X = [0, 10], Y = [0, 6];
+  const sx = scale(X[0], X[1], box.l, box.r), sy = scale(Y[0], Y[1], box.b, box.t);
+  const ix = scale(box.l, box.r, X[0], X[1]), iy = scale(box.b, box.t, Y[0], Y[1]);
+  axes(svg, box, { map: sx, ticks: [0, 2, 4, 6, 8, 10] }, { map: sy, ticks: [0, 1, 2, 3, 4, 5, 6] },
+    "Ingreso mediano (decenas de miles USD)", "Valor vivienda (cientos de miles USD)");
+
+  const hit = el("rect", { x: box.l, y: box.t, width: box.r - box.l, height: box.b - box.t, fill: "transparent" }, svg);
+  const resG = el("g", {}, svg);
+  const line = el("line", { stroke: "var(--ink)", "stroke-width": 2, "stroke-linecap": "round" }, svg);
+  const ptG = el("g", {}, svg);
+
+  let pts = [];
+  function seed() {
+    const r = rng(7);
+    pts = Array.from({ length: 22 }, () => {
+      const x = 1 + r() * 8;
+      return { x, y: Math.min(5.8, Math.max(0.2, 0.45 * x + 0.5 + gauss(r) * 0.45)) };
+    });
+  }
+
+  function fit() {
+    const n = pts.length;
+    if (n < 2) return null;
+    const mx = pts.reduce((s, p) => s + p.x, 0) / n, my = pts.reduce((s, p) => s + p.y, 0) / n;
+    let sxy = 0, sxx = 0;
+    pts.forEach((p) => { sxy += (p.x - mx) * (p.y - my); sxx += (p.x - mx) ** 2; });
+    if (sxx === 0) return null;
+    const m = sxy / sxx, b = my - m * mx;
+    let ssr = 0, sst = 0;
+    pts.forEach((p) => { ssr += (p.y - (m * p.x + b)) ** 2; sst += (p.y - my) ** 2; });
+    return { m, b, r2: sst ? 1 - ssr / sst : NaN, rmse: Math.sqrt(ssr / n) };
+  }
+
+  function draw() {
+    const f = fit();
+    resG.replaceChildren();
+    const showRes = $("reg-res").checked;
+    if (f) {
+      const clip = (x) => Math.max(Y[0], Math.min(Y[1], f.m * x + f.b));
+      // Recorta la recta al área del gráfico
+      let x0 = X[0], x1 = X[1];
+      if (f.m !== 0) {
+        const xa = (Y[0] - f.b) / f.m, xb = (Y[1] - f.b) / f.m;
+        x0 = Math.max(X[0], Math.min(xa, xb)); x1 = Math.min(X[1], Math.max(xa, xb));
+      }
+      line.setAttribute("x1", sx(x0)); line.setAttribute("y1", sy(clip(x0)));
+      line.setAttribute("x2", sx(x1)); line.setAttribute("y2", sy(clip(x1)));
+      line.style.display = "";
+      if (showRes) pts.forEach((p) => {
+        el("line", { x1: sx(p.x), x2: sx(p.x), y1: sy(p.y), y2: sy(f.m * p.x + f.b), stroke: "var(--s2)", "stroke-width": 1.5, "stroke-dasharray": "3 3" }, resG);
+      });
+    } else line.style.display = "none";
+
+    ptG.replaceChildren();
+    pts.forEach((p, i) => {
+      const c = el("circle", { cx: sx(p.x), cy: sy(p.y), r: 6, fill: "var(--s1)", stroke: "var(--surface)", "stroke-width": 2, class: "pt" }, ptG);
+      el("circle", { cx: sx(p.x), cy: sy(p.y), r: 14, fill: "transparent", class: "pt", "data-i": i }, ptG);
+      c.dataset.i = i;
+    });
+
+    $("reg-r2").textContent = f ? fmt(f.r2) : "—";
+    $("reg-rmse").textContent = f ? fmt(f.rmse) : "—";
+    $("reg-m").textContent = f ? fmt(f.m) : "—";
+    $("reg-n").textContent = pts.length;
+    $("reg-eq").textContent = f ? `ŷ = ${fmt(f.m)}·x ${f.b < 0 ? "−" : "+"} ${fmt(Math.abs(f.b))}` : "ŷ = —";
+  }
+
+  let drag = null;
+  ptG.addEventListener("pointerdown", (e) => {
+    const i = e.target.dataset.i;
+    if (i === undefined) return;
+    drag = +i;
+    svg.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  svg.addEventListener("pointermove", (e) => {
+    const f = fit();
+    if (drag !== null) {
+      const p = svgPoint(svg, e);
+      pts[drag].x = Math.max(X[0], Math.min(X[1], ix(p.x)));
+      pts[drag].y = Math.max(Y[0], Math.min(Y[1], iy(p.y)));
+      draw();
+    }
+    const i = drag ?? e.target.dataset?.i;
+    if (i !== undefined && i !== null && pts[i]) {
+      const p = pts[i];
+      const res = f ? p.y - (f.m * p.x + f.b) : NaN;
+      showTip(e, `x ${fmt(p.x)} · y ${fmt(p.y)}<br>residuo ${fmt(res)}`);
+    } else hideTip();
+  });
+  svg.addEventListener("pointerup", () => { drag = null; });
+  svg.addEventListener("pointerleave", hideTip);
+  hit.addEventListener("click", (e) => {
+    const p = svgPoint(svg, e);
+    pts.push({ x: ix(p.x), y: iy(p.y) });
+    draw();
+  });
+  ptG.addEventListener("dblclick", (e) => {
+    const i = e.target.dataset.i;
+    if (i === undefined) return;
+    pts.splice(+i, 1); hideTip(); draw();
+  });
+  $("reg-res").addEventListener("change", draw);
+  $("reg-reset").addEventListener("click", () => { seed(); draw(); });
+  $("reg-outlier").addEventListener("click", () => { pts.push({ x: 9.2, y: 0.4 }); draw(); });
+
+  seed(); draw();
+})();
+
+/* ------------------------------------------------ 02 Clasificación */
+(function classification() {
+  const svg = $("cls-svg");
+  const box = { l: 112, r: 620, t: 18, b: 300 };
+  const sx = scale(0, 1, box.l, box.r), ix = scale(box.l, box.r, 0, 1);
+  const lanes = [{ cls: 1, name: "Sobrevivió", y: 90, color: "var(--s1)" }, { cls: 0, name: "No sobrevivió", y: 225, color: "var(--s2)" }];
+
+  const r = rng(11);
+  const data = [];
+  for (let i = 0; i < 52; i++) data.push({ cls: 1, p: Math.min(0.98, Math.max(0.02, 0.66 + gauss(r) * 0.18)), j: r() });
+  for (let i = 0; i < 84; i++) data.push({ cls: 0, p: Math.min(0.98, Math.max(0.02, 0.3 + gauss(r) * 0.17)), j: r() });
+
+  // Fondo de la zona "predice sobrevive"
+  const zone = el("rect", { y: box.t, height: box.b - box.t, fill: "var(--grid)" }, svg);
+  const g = el("g", { class: "axis" }, svg);
+  [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+    el("text", { x: sx(t), y: box.b + 20, "text-anchor": "middle" }, g).textContent = String(t).replace(".", ",");
+  });
+  el("line", { x1: box.l, x2: box.r, y1: box.b, y2: box.b, class: "baseline" }, g);
+  el("text", { x: (box.l + box.r) / 2, y: box.b + 44, "text-anchor": "middle", class: "axis-title" }, g).textContent = "Probabilidad predicha de sobrevivir";
+  lanes.forEach((l) => {
+    el("text", { x: box.l - 14, y: l.y + 4, "text-anchor": "end", class: "axis-title" }, g).textContent = l.name;
+  });
+
+  const zoneLabelL = el("text", { y: box.b - 12, class: "tick-label" }, svg);
+  const zoneLabelR = el("text", { y: box.b - 12, class: "tick-label" }, svg);
+  const dotG = el("g", {}, svg);
+  const tLine = el("line", { y1: box.t, y2: box.b, stroke: "var(--ink)", "stroke-width": 2 }, svg);
+  const tHandle = el("rect", { y: box.t - 2, width: 14, height: 22, rx: 4, fill: "var(--ink)", style: "cursor:ew-resize" }, svg);
+  const tHit = el("rect", { y: box.t, width: 24, height: box.b - box.t, fill: "transparent", style: "cursor:ew-resize" }, svg);
+
+  const dots = data.map((d) => {
+    const lane = lanes.find((l) => l.cls === d.cls);
+    const c = el("circle", { cx: sx(d.p), cy: lane.y + (d.j - 0.5) * 92, r: 5.5, "stroke-width": 2 }, dotG);
+    c.addEventListener("pointermove", (e) => showTip(e, `${lane.name}<br>p = ${fmt(d.p)} → ${d.p >= +$("cls-t").value ? "predice: sobrevive" : "predice: no sobrevive"}`));
+    c.addEventListener("pointerleave", hideTip);
+    return { d, c, lane };
+  });
+
+  function draw() {
+    const t = +$("cls-t").value;
+    const x = sx(t);
+    zone.setAttribute("x", x); zone.setAttribute("width", box.r - x);
+    tLine.setAttribute("x1", x); tLine.setAttribute("x2", x);
+    tHandle.setAttribute("x", x - 7); tHit.setAttribute("x", x - 12);
+    zoneLabelL.setAttribute("x", x - 10); zoneLabelL.setAttribute("text-anchor", "end"); zoneLabelL.textContent = "← predice: no";
+    zoneLabelR.setAttribute("x", x + 12); zoneLabelR.textContent = "predice: sí →";
+    $("cls-t-label").textContent = fmt(t);
+
+    let tp = 0, fp = 0, tn = 0, fn = 0;
+    dots.forEach(({ d, c, lane }) => {
+      const pred = d.p >= t ? 1 : 0;
+      const ok = pred === d.cls;
+      if (pred && d.cls) tp++; else if (pred) fp++; else if (d.cls) fn++; else tn++;
+      c.setAttribute("fill", ok ? lane.color : "var(--surface)");
+      c.setAttribute("stroke", ok ? "var(--surface)" : lane.color);
+    });
+
+    $("cls-cm").innerHTML = `
+      <div></div><div class="h">Predice: sí</div><div class="h">Predice: no</div>
+      <div class="h row">Sobrevivió</div><div class="cell ok"><b>${tp}</b><span>Verdaderos positivos</span></div><div class="cell"><b>${fn}</b><span>Falsos negativos</span></div>
+      <div class="h row">No<br>sobrevivió</div><div class="cell"><b>${fp}</b><span>Falsos positivos</span></div><div class="cell ok"><b>${tn}</b><span>Verdaderos negativos</span></div>`;
+
+    const acc = (tp + tn) / data.length;
+    const prec = tp + fp ? tp / (tp + fp) : NaN;
+    const rec = tp + fn ? tp / (tp + fn) : NaN;
+    const f1 = prec + rec ? (2 * prec * rec) / (prec + rec) : NaN;
+    $("cls-bars").innerHTML = [["Accuracy", acc], ["Precision", prec], ["Recall", rec], ["F1", f1]]
+      .map(([n, v]) => `<div class="bar-row"><span>${n}</span><div class="track"><div class="fill" style="width:${(Number.isFinite(v) ? v : 0) * 100}%"></div></div><span class="v">${fmt(v)}</span></div>`)
+      .join("");
+  }
+
+  let dragging = false;
+  const moveTo = (e) => {
+    const p = svgPoint(svg, e);
+    $("cls-t").value = Math.max(0.05, Math.min(0.95, ix(p.x))).toFixed(2);
+    draw();
+  };
+  [tHit, tHandle].forEach((n) => n.addEventListener("pointerdown", (e) => { dragging = true; svg.setPointerCapture(e.pointerId); e.preventDefault(); }));
+  svg.addEventListener("pointermove", (e) => { if (dragging) moveTo(e); });
+  svg.addEventListener("pointerup", () => { dragging = false; });
+  $("cls-t").addEventListener("input", draw);
+  draw();
+})();
+
+/* ------------------------------------------------ 03 Clustering */
+(function kmeans() {
+  const svg = $("km-svg");
+  const box = { l: 60, r: 620, t: 16, b: 320 };
+  const X = [32, 60], Y = [170, 235];
+  const sx = scale(X[0], X[1], box.l, box.r), sy = scale(Y[0], Y[1], box.b, box.t);
+  axes(svg, box, { map: sx, ticks: [35, 40, 45, 50, 55, 60] }, { map: sy, ticks: [170, 180, 190, 200, 210, 220, 230] },
+    "Largo del pico (mm)", "Largo de la aleta (mm)");
+  const COLORS = ["var(--s1)", "var(--s2)", "var(--s3)"];
+  const SHAPES = ["circle", "square", "triangle"];
+  const ptG = el("g", {}, svg), cG = el("g", {}, svg);
+
+  const SPECIES = [
+    { name: "Adelia", bill: [38.8, 2.6], flip: [190, 6.5] },
+    { name: "Barbijo", bill: [48.8, 3.3], flip: [196, 7.1] },
+    { name: "Papúa", bill: [47.5, 3.1], flip: [217, 6.5] },
+  ];
+  let seedN = 3, k = 3, pts = [], cents = [], assign = [], phase = "assign", iter = 0, done = false, timer = null;
+
+  function genData() {
+    const r = rng(seedN);
+    pts = [];
+    SPECIES.forEach((s) => {
+      for (let i = 0; i < 50; i++) {
+        pts.push({
+          x: Math.max(X[0] + 0.5, Math.min(X[1] - 0.5, s.bill[0] + gauss(r) * s.bill[1])),
+          y: Math.max(Y[0] + 1, Math.min(Y[1] - 1, s.flip[0] + gauss(r) * s.flip[1])),
+          sp: s.name,
+        });
+      }
+    });
+    // Estandarizar para que ambas variables pesen igual
+    const mean = (a) => a.reduce((s, v) => s + v, 0) / a.length;
+    const sd = (a, m) => Math.sqrt(a.reduce((s, v) => s + (v - m) ** 2, 0) / a.length);
+    const mx = mean(pts.map((p) => p.x)), my = mean(pts.map((p) => p.y));
+    const dx = sd(pts.map((p) => p.x), mx), dy = sd(pts.map((p) => p.y), my);
+    pts.forEach((p) => { p.zx = (p.x - mx) / dx; p.zy = (p.y - my) / dy; });
+    pts.std = { mx, my, dx, dy };
+  }
+  const toZ = (c) => ({ zx: (c.x - pts.std.mx) / pts.std.dx, zy: (c.y - pts.std.my) / pts.std.dy });
+  const d2 = (a, b) => (a.zx - b.zx) ** 2 + (a.zy - b.zy) ** 2;
+
+  function initCentroids(r = Math.random) {
+    const idx = new Set();
+    while (idx.size < k) idx.add(Math.floor(r() * pts.length));
+    cents = [...idx].map((i) => ({ x: pts[i].x, y: pts[i].y }));
+    assign = pts.map(() => -1);
+    phase = "assign"; iter = 0; done = false;
+  }
+
+  function stepAssign() {
+    let changed = false;
+    const cz = cents.map(toZ);
+    pts.forEach((p, i) => {
+      let best = 0;
+      cz.forEach((c, j) => { if (d2(p, c) < d2(p, cz[best])) best = j; });
+      if (assign[i] !== best) { assign[i] = best; changed = true; }
+    });
+    if (!changed && iter > 0) done = true;
+    phase = "move";
+  }
+  function stepMove() {
+    cents = cents.map((c, j) => {
+      const m = pts.filter((_, i) => assign[i] === j);
+      if (!m.length) return c;
+      return { x: m.reduce((s, p) => s + p.x, 0) / m.length, y: m.reduce((s, p) => s + p.y, 0) / m.length };
+    });
+    iter++; phase = "assign";
+  }
+  function inertia() {
+    if (assign[0] === -1) return NaN;
+    const cz = cents.map(toZ);
+    return pts.reduce((s, p, i) => s + d2(p, cz[assign[i]]), 0);
+  }
+
+  function shape(parent, kind, x, y, size, attrs) {
+    if (kind === "circle") return el("circle", { cx: x, cy: y, r: size, ...attrs }, parent);
+    if (kind === "square") return el("rect", { x: x - size * 0.9, y: y - size * 0.9, width: size * 1.8, height: size * 1.8, rx: 1.5, ...attrs }, parent);
+    const h = size * 1.15;
+    return el("path", { d: `M${x},${y - h * 1.1} L${x + h},${y + h * 0.75} L${x - h},${y + h * 0.75} Z`, "stroke-linejoin": "round", ...attrs }, parent);
+  }
+
+  function draw() {
+    ptG.replaceChildren(); cG.replaceChildren();
+    pts.forEach((p, i) => {
+      const a = assign[i];
+      const n = shape(ptG, a < 0 ? "circle" : SHAPES[a], sx(p.x), sy(p.y), 5, {
+        fill: a < 0 ? "var(--neutral)" : COLORS[a], stroke: "var(--surface)", "stroke-width": 1.5,
+      });
+      n.addEventListener("pointermove", (e) => showTip(e, `${p.sp}<br>pico ${fmt(p.x, 1)} · aleta ${fmt(p.y, 0)}<br>${a < 0 ? "sin asignar" : "cluster " + (a + 1)}`));
+      n.addEventListener("pointerleave", hideTip);
+    });
+    cents.forEach((c, j) => {
+      const g = el("g", {}, cG);
+      el("circle", { cx: sx(c.x), cy: sy(c.y), r: 11, fill: "var(--surface)", stroke: "var(--ink)", "stroke-width": 2 }, g);
+      shape(g, SHAPES[j], sx(c.x), sy(c.y), 5, { fill: COLORS[j] });
+      g.addEventListener("pointermove", (e) => showTip(e, `centroide ${j + 1}<br>pico ${fmt(c.x, 1)} · aleta ${fmt(c.y, 0)}`));
+      g.addEventListener("pointerleave", hideTip);
+    });
+    const I = inertia();
+    $("km-status").textContent = done
+      ? `Convergió en ${iter} iteraciones · inercia ${fmt(I, 1)}`
+      : `Iteración ${iter}${Number.isFinite(I) ? " · inercia " + fmt(I, 1) : ""}`;
+    $("km-step").textContent = phase === "assign" ? "Asignar puntos" : "Mover centroides";
+    $("km-step").disabled = done;
+    $("km-run").disabled = done;
+  }
+
+  function step() {
+    if (done) return;
+    phase === "assign" ? stepAssign() : stepMove();
+    draw();
+  }
+  function stop() { clearInterval(timer); timer = null; $("km-run").textContent = "Ejecutar"; }
+  function run() {
+    if (timer) return stop();
+    $("km-run").textContent = "Pausar";
+    timer = setInterval(() => { step(); if (done) { stop(); draw(); } }, 450);
+  }
+
+  // Codo: mejor inercia de varias inicializaciones para k = 1..6
+  const elbow = $("km-elbow");
+  function drawElbow() {
+    elbow.replaceChildren();
+    const r = rng(seedN * 31);
+    const vals = [1, 2, 3, 4, 5, 6].map((kk) => {
+      let best = Infinity;
+      for (let run = 0; run < 8; run++) {
+        let c = [];
+        const idx = new Set();
+        while (idx.size < kk) idx.add(Math.floor(r() * pts.length));
+        c = [...idx].map((i) => ({ zx: pts[i].zx, zy: pts[i].zy }));
+        let a = [];
+        for (let it = 0; it < 30; it++) {
+          a = pts.map((p) => c.reduce((b, cc, j) => (d2(p, cc) < d2(p, c[b]) ? j : b), 0));
+          c = c.map((cc, j) => {
+            const m = pts.filter((_, i) => a[i] === j);
+            return m.length ? { zx: m.reduce((s, p) => s + p.zx, 0) / m.length, zy: m.reduce((s, p) => s + p.zy, 0) / m.length } : cc;
+          });
+        }
+        best = Math.min(best, pts.reduce((s, p, i) => s + d2(p, c[a[i]]), 0));
+      }
+      return best;
+    });
+    const b = { l: 40, r: 290, t: 10, b: 140 };
+    const ex = scale(1, 6, b.l, b.r), ey = scale(0, Math.ceil(vals[0] / 50) * 50, b.b, b.t);
+    const g = el("g", { class: "axis" }, elbow);
+    [0, Math.ceil(vals[0] / 50) * 50].forEach((t) => {
+      el("line", { x1: b.l, x2: b.r, y1: ey(t), y2: ey(t), class: t ? "gridline" : "baseline" }, g);
+      el("text", { x: b.l - 8, y: ey(t) + 4, "text-anchor": "end" }, g).textContent = t;
+    });
+    vals.forEach((_, i) => { el("text", { x: ex(i + 1), y: b.b + 18, "text-anchor": "middle" }, g).textContent = i + 1; });
+    el("polyline", { points: vals.map((v, i) => `${ex(i + 1)},${ey(v)}`).join(" "), fill: "none", stroke: "var(--ink-2)", "stroke-width": 2, "stroke-linejoin": "round" }, elbow);
+    vals.forEach((v, i) => {
+      const on = i + 1 === k;
+      const c = el("circle", { cx: ex(i + 1), cy: ey(v), r: on ? 6 : 4, fill: on ? "var(--ink)" : "var(--surface)", stroke: "var(--ink-2)", "stroke-width": 2 }, elbow);
+      el("circle", { cx: ex(i + 1), cy: ey(v), r: 12, fill: "transparent" }, elbow)
+        .addEventListener("pointermove", (e) => showTip(e, `k = ${i + 1} · inercia ${fmt(v, 1)}`));
+      elbow.lastChild.addEventListener("pointerleave", hideTip);
+    });
+  }
+
+  $("km-step").addEventListener("click", () => { stop(); step(); });
+  $("km-run").addEventListener("click", run);
+  $("km-init").addEventListener("click", () => { stop(); initCentroids(); draw(); });
+  $("km-data").addEventListener("click", () => { stop(); seedN++; genData(); initCentroids(); draw(); drawElbow(); });
+  $("km-k").addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    k = +b.dataset.k;
+    [...$("km-k").children].forEach((x) => x.setAttribute("aria-pressed", x === b));
+    stop(); initCentroids(); draw(); drawElbow();
+  });
+
+  genData(); initCentroids(rng(5)); draw(); drawElbow();
+})();
+</script>
+</body>
+</html>

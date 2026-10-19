@@ -57,7 +57,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
   background: var(--bg);
@@ -68,27 +68,9 @@ body {
 a { color: inherit; }
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
 
-/* Top bar */
-.top {
-  position: sticky; top: 0; z-index: 10;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--rule);
-}
-.top .wrap { display: flex; align-items: center; gap: 28px; height: 56px; }
-.brand { font: 500 13px var(--mono); letter-spacing: .02em; color: var(--ink-2); margin-right: auto; white-space: nowrap; }
-.top nav { display: flex; gap: 22px; }
-.top nav a { text-decoration: none; font-size: 14px; color: var(--ink-2); }
-.top nav a:hover { color: var(--ink); }
-.icon-btn {
-  width: 34px; height: 34px; border-radius: 50%;
-  border: 1px solid var(--rule); background: var(--surface); color: var(--ink);
-  display: grid; place-items: center; cursor: pointer;
-}
-.icon-btn svg { width: 16px; height: 16px; }
-
 /* Hero */
-.hero { padding: 0 0 56px; }
+.kicker { font: 500 13px var(--mono); color: var(--ink-2); }
+.hero { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 32px 0; }
 .hero h1 {
   font: 400 clamp(40px, 6.4vw, 76px)/1.02 var(--serif);
   letter-spacing: -.02em; margin: 0 0 20px; max-width: 14ch;
@@ -113,27 +95,31 @@ a { color: inherit; }
 /* Sections */
 .screen {
   min-height: 100vh; min-height: 100svh;
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 80px 0 36px;
+  display: flex; flex-direction: column;
+  padding: 40px 0 32px;
   scroll-snap-align: start;
+}
+@media (min-width: 861px) and (min-height: 640px) {
+  html { scroll-snap-type: y mandatory; }
+  .screen { height: 100vh; height: 100svh; }
 }
 .demo-head { display: flex; align-items: baseline; gap: 18px; border-top: 1px solid var(--ink); padding-top: 18px; margin-bottom: 8px; }
 .demo-head .num { font: 500 12px var(--mono); color: var(--ink-3); }
 .demo-head h2 { font: 400 40px/1.1 var(--serif); margin: 0; letter-spacing: -.01em; }
-.hint { color: var(--ink-2); margin: 0 0 20px; max-width: 62ch; }
+.hint { color: var(--ink-2); margin: 0 0 20px; max-width: 86ch; }
 
-.context { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin: 18px 0 32px; }
-.context h4 { font: 500 12px var(--mono); color: var(--ink-3); margin: 0 0 6px; }
-.context p { margin: 0; font-size: 14px; color: var(--ink-2); }
-.context b { color: var(--ink); font-weight: 500; }
+.context { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin: 18px 0 28px; }
+.context h4 { font: 500 12px var(--mono); color: var(--ink-3); margin: 0 0 4px; }
+.context p { margin: 0; font-size: 15px; }
 
-.demo-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 32px; align-items: start; }
+.demo-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 32px; flex: 1; min-height: 0; }
 .chart {
   background: var(--surface); border: 1px solid var(--rule); border-radius: 6px;
   padding: 12px; position: relative;
+  display: flex; flex-direction: column; min-height: 0;
 }
-.chart svg { display: block; width: 100%; height: auto; touch-action: none; user-select: none; }
-.panel { display: flex; flex-direction: column; gap: 26px; }
+.chart svg { display: block; width: 100%; flex: 1 1 0; min-height: 0; touch-action: none; user-select: none; }
+.panel { display: flex; flex-direction: column; justify-content: center; gap: 26px; }
 
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 16px; }
 .stat .label { font-size: 12.5px; color: var(--ink-3); }
@@ -182,18 +168,18 @@ input[type="range"] { width: 100%; accent-color: var(--ink); }
 .mini-title { font-size: 12.5px; color: var(--ink-3); margin-bottom: 4px; }
 
 /* Notebooks */
-.nb-list { border-top: 1px solid var(--ink); }
+.nb-list { border-top: 1px solid var(--ink); flex: 1; display: flex; flex-direction: column; }
 .nb {
   display: grid; grid-template-columns: 40px 1.2fr 1.4fr auto; gap: 16px; align-items: center;
-  padding: 18px 0; border-bottom: 1px solid var(--rule);
+  flex: 1; padding: 18px 0; border-bottom: 1px solid var(--rule);
 }
 .nb .num { font: 500 12px var(--mono); color: var(--ink-3); }
-.nb .name { font: 400 22px var(--serif); }
+.nb .name { font: 400 clamp(24px, 3vw, 36px)/1.1 var(--serif); }
 .nb .data { color: var(--ink-2); font-size: 14px; }
 .nb .links { display: flex; gap: 8px; }
 .note { color: var(--ink-3); font-size: 13.5px; margin: 18px 0 0; }
 
-footer { padding: 0 0 32px; color: var(--ink-3); font-size: 13px; }
+footer { padding-top: 24px; color: var(--ink-3); font-size: 13px; }
 
 /* Tooltip */
 .tip {
@@ -213,45 +199,35 @@ footer { padding: 0 0 32px; color: var(--ink-3); font-size: 13px; }
 .pt { cursor: grab; }
 .pt:active { cursor: grabbing; }
 
+@media (max-height: 800px) {
+  .screen { padding: 28px 0 24px; }
+  .demo-head h2 { font-size: 34px; }
+  .context { margin: 12px 0 18px; }
+  .hint { margin-bottom: 14px; }
+  .panel { gap: 18px; }
+}
 @media (max-width: 860px) {
   .demo-grid { grid-template-columns: 1fr; }
-  .overview, .context { grid-template-columns: 1fr; }
-  .context { gap: 18px; }
+  .overview { grid-template-columns: 1fr; }
+  .context { grid-template-columns: 1fr 1fr; gap: 16px; }
   .overview a, .overview a + a { padding: 20px 0; border-left: 0; border-top: 1px solid var(--rule); }
   .overview a:first-child { border-top: 0; }
-  .top nav { display: none; }
+  .chart svg { flex: none; height: 72vw; min-height: 300px; }
   .nb { grid-template-columns: 32px 1fr; }
   .nb .data, .nb .links { grid-column: 2; }
 }
 @media (max-width: 520px) {
   .wrap { padding: 0 16px; }
-  .hero { padding: 56px 0 40px; }
   .demo-head h2 { font-size: 32px; }
   .chart { padding: 6px; }
-  .chart .axis text, .chart .tick-label { font-size: 17px; }
-  .chart .axis .axis-title { font-size: 16px; }
 }
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="wrap">
-    <span class="brand">Ingeniería de Datos — Ayudantía</span>
-    <nav>
-      <a href="#regresion">Regresión</a>
-      <a href="#clasificacion">Clasificación</a>
-      <a href="#clustering">Clustering</a>
-      <a href="#notebooks">Notebooks</a>
-    </nav>
-    <button class="icon-btn" id="theme" aria-label="Cambiar tema">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-    </button>
-  </div>
-</header>
-
 <main class="wrap">
-  <div class="screen">
+  <div class="screen intro">
+  <span class="kicker">Ingeniería de Datos — Ayudantía</span>
   <div class="hero">
     <h1>Regresión, clasificación y clustering</h1>
     <p>Tres modelos, tres preguntas distintas sobre los datos.</p>
@@ -298,13 +274,14 @@ footer { padding: 0 0 32px; color: var(--ink-3); font-size: 13px; }
   <section class="demo screen" id="regresion">
     <div class="demo-head"><span class="num">01</span><h2>Regresión lineal</h2></div>
     <div class="context">
-      <div><h4>Qué es</h4><p>Predice un <b>valor numérico</b> a partir de otras variables. La regresión lineal busca la recta que hace más pequeña la suma de los errores al cuadrado (mínimos cuadrados).</p></div>
-      <div><h4>Cómo se mide</h4><p>El <b>residuo</b> es la distancia vertical entre un punto y la recta. <b>RMSE</b> resume esos errores en las unidades de y; <b>R²</b> indica qué parte de la variación explica el modelo (1 = perfecto, 0 = igual que predecir el promedio).</p></div>
-      <div><h4>Dónde se usa</h4><p>Precio de viviendas, demanda de productos, tiempos de entrega, consumo eléctrico. En el notebook se compara con Random Forest, que capta relaciones no lineales.</p></div>
+      <div><h4>Dataset</h4><p>California Housing</p></div>
+      <div><h4>Predice</h4><p>Valor de la vivienda (USD)</p></div>
+      <div><h4>Variables</h4><p>Ingreso, ubicación y 7 más</p></div>
+      <div><h4>Mejor modelo</h4><p>Random Forest · R² 0,82</p></div>
     </div>
     <p class="hint">Arrastra los puntos y mira cómo se ajusta la recta. Clic en un espacio vacío agrega un punto; doble clic lo borra.</p>
     <div class="demo-grid">
-      <div class="chart"><svg id="reg-svg" viewBox="0 0 640 380" aria-label="Gráfico de dispersión con recta de regresión"></svg></div>
+      <div class="chart"><svg id="reg-svg" aria-label="Gráfico de dispersión con recta de regresión"></svg></div>
       <div class="panel">
         <div class="stats">
           <div class="stat"><div class="label">R²</div><div class="value" id="reg-r2">—</div></div>
@@ -326,14 +303,15 @@ footer { padding: 0 0 32px; color: var(--ink-3); font-size: 13px; }
   <section class="demo screen" id="clasificacion">
     <div class="demo-head"><span class="num">02</span><h2>Umbral de decisión</h2></div>
     <div class="context">
-      <div><h4>Qué es</h4><p>Predice una <b>categoría</b>. Modelos como la regresión logística entregan una probabilidad entre 0 y 1, y un <b>umbral</b> la convierte en una decisión: sí o no.</p></div>
-      <div><h4>Cómo se mide</h4><p><b>Accuracy</b> es el % de aciertos, pero engaña si una clase domina. <b>Precision</b>: de los que predijo «sí», cuántos lo eran. <b>Recall</b>: de los «sí» reales, cuántos encontró. <b>F1</b> equilibra ambas.</p></div>
-      <div><h4>Dónde se usa</h4><p>Fraude, spam, diagnóstico médico, abandono de clientes. Bajar el umbral sube el recall a costa de la precision: en un examen médico conviene; en un filtro de spam, no.</p></div>
+      <div><h4>Dataset</h4><p>Titanic</p></div>
+      <div><h4>Predice</h4><p>¿Sobrevivió? Sí / No</p></div>
+      <div><h4>Variables</h4><p>Clase, sexo, edad y 4 más</p></div>
+      <div><h4>Mejor modelo</h4><p>Reg. logística · 80% acierto</p></div>
     </div>
     <p class="hint">Cada punto es un pasajero, ubicado según la probabilidad de sobrevivir que le asigna el modelo. Mueve el umbral: a la derecha, el modelo predice que sobrevive.</p>
     <div class="demo-grid">
       <div class="chart">
-        <svg id="cls-svg" viewBox="0 0 640 360" aria-label="Probabilidades predichas por clase real"></svg>
+        <svg id="cls-svg" aria-label="Probabilidades predichas por clase real"></svg>
         <div class="legend">
           <span><i style="background:var(--s1)"></i>Sobrevivió</span>
           <span><i style="background:var(--s2)"></i>No sobrevivió</span>
@@ -355,13 +333,14 @@ footer { padding: 0 0 32px; color: var(--ink-3); font-size: 13px; }
   <section class="demo screen" id="clustering">
     <div class="demo-head"><span class="num">03</span><h2>K-Means paso a paso</h2></div>
     <div class="context">
-      <div><h4>Qué es</h4><p>Agrupa datos <b>sin etiquetas</b>: no hay respuesta correcta con la que entrenar. K-Means divide los datos en k grupos, cada uno representado por su <b>centroide</b>, el promedio de sus puntos.</p></div>
-      <div><h4>Cómo se mide</h4><p><b>Inercia</b>: suma de las distancias al cuadrado de cada punto a su centroide. Siempre baja al aumentar k, por eso se busca el «codo». Antes se <b>estandarizan</b> las variables, porque K-Means usa distancias.</p></div>
-      <div><h4>Dónde se usa</h4><p>Segmentación de clientes, agrupación de documentos, compresión de imágenes. El resultado depende de los centroides iniciales: prueba «Nuevos centroides» y compara la inercia.</p></div>
+      <div><h4>Dataset</h4><p>Palmer Penguins</p></div>
+      <div><h4>Agrupa</h4><p>333 pingüinos en 3 grupos</p></div>
+      <div><h4>Variables</h4><p>Pico, aleta y masa</p></div>
+      <div><h4>Resultado</h4><p>92% coincide con la especie</p></div>
     </div>
     <p class="hint">Cada punto es un pingüino. El algoritmo no conoce la especie: alterna entre asignar cada punto al centroide más cercano y mover cada centroide al promedio de su grupo.</p>
     <div class="demo-grid">
-      <div class="chart"><svg id="km-svg" viewBox="0 0 640 380" aria-label="Puntos agrupados por K-Means"></svg></div>
+      <div class="chart"><svg id="km-svg" aria-label="Puntos agrupados por K-Means"></svg></div>
       <div class="panel">
         <div>
           <div class="field-label">Número de clusters (k)</div>
@@ -405,10 +384,9 @@ footer { padding: 0 0 32px; color: var(--ink-3); font-size: 13px; }
         <span class="links"><a class="btn primary" href="https://colab.research.google.com/github/emassa05/ayudantia-modelos/blob/main/03_clustering.ipynb" target="_blank" rel="noopener">Abrir en Colab</a><a class="btn" href="https://github.com/emassa05/ayudantia-modelos/blob/main/con_resultados/03_clustering.ipynb" target="_blank" rel="noopener">Ver resultados</a><a class="btn" href="03_clustering.ipynb" download>Descargar</a></span>
       </div>
     </div>
+    <footer>Ingeniería de Datos · 2026</footer>
   </section>
 </main>
-
-<footer class="wrap">Ingeniería de Datos · 2026</footer>
 
 <div class="tip" id="tip"></div>
 
@@ -443,6 +421,19 @@ function svgPoint(svg, evt) {
   return p.matrixTransform(svg.getScreenCTM().inverse());
 }
 
+// Ajusta el viewBox al tamaño real del SVG y vuelve a dibujar al cambiar de tamaño
+function fitSvg(svg, render) {
+  let frame = 0;
+  const run = () => {
+    const W = svg.clientWidth, H = svg.clientHeight;
+    if (!W || !H) return;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.replaceChildren();
+    render(W, H);
+  };
+  new ResizeObserver(() => { cancelAnimationFrame(frame); frame = requestAnimationFrame(run); }).observe(svg);
+}
+
 // Tooltip
 const tip = $("tip");
 function showTip(evt, html) {
@@ -455,7 +446,7 @@ function showTip(evt, html) {
 }
 const hideTip = () => tip.classList.remove("on");
 
-// Axes helper
+// Ejes
 function axes(svg, box, xs, ys, xTitle, yTitle) {
   const g = el("g", { class: "axis" }, svg);
   ys.ticks.forEach((t) => {
@@ -476,33 +467,13 @@ function axes(svg, box, xs, ys, xTitle, yTitle) {
 }
 const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0);
 
-// Theme
-(function theme() {
-  const root = document.documentElement;
-  try { const t = localStorage.getItem("theme"); if (t) root.dataset.theme = t; } catch (e) {}
-  $("theme").addEventListener("click", () => {
-    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-    root.dataset.theme = dark ? "light" : "dark";
-    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
-  });
-})();
-
 /* ------------------------------------------------ 01 Regresión */
 (function regression() {
   const svg = $("reg-svg");
-  const box = { l: 60, r: 620, t: 16, b: 320 };
   const X = [0, 10], Y = [0, 6];
-  const sx = scale(X[0], X[1], box.l, box.r), sy = scale(Y[0], Y[1], box.b, box.t);
-  const ix = scale(box.l, box.r, X[0], X[1]), iy = scale(box.b, box.t, Y[0], Y[1]);
-  axes(svg, box, { map: sx, ticks: [0, 2, 4, 6, 8, 10] }, { map: sy, ticks: [0, 1, 2, 3, 4, 5, 6] },
-    "Ingreso mediano (decenas de miles USD)", "Valor vivienda (cientos de miles USD)");
-
-  const hit = el("rect", { x: box.l, y: box.t, width: box.r - box.l, height: box.b - box.t, fill: "transparent" }, svg);
-  const resG = el("g", {}, svg);
-  const line = el("line", { stroke: "var(--ink)", "stroke-width": 2, "stroke-linecap": "round" }, svg);
-  const ptG = el("g", {}, svg);
-
+  let sx, sy, ix, iy, line, resG, ptG;
   let pts = [];
+
   function seed() {
     const r = rng(7);
     pts = Array.from({ length: 22 }, () => {
@@ -524,7 +495,21 @@ const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0)
     return { m, b, r2: sst ? 1 - ssr / sst : NaN, rmse: Math.sqrt(ssr / n) };
   }
 
+  function render(W, H) {
+    const box = { l: 64, r: W - 16, t: 16, b: H - 56 };
+    sx = scale(X[0], X[1], box.l, box.r); sy = scale(Y[0], Y[1], box.b, box.t);
+    ix = scale(box.l, box.r, X[0], X[1]); iy = scale(box.b, box.t, Y[0], Y[1]);
+    axes(svg, box, { map: sx, ticks: [0, 2, 4, 6, 8, 10] }, { map: sy, ticks: [0, 1, 2, 3, 4, 5, 6] },
+      "Ingreso mediano (decenas de miles USD)", "Valor vivienda (cientos de miles USD)");
+    el("rect", { x: box.l, y: box.t, width: box.r - box.l, height: box.b - box.t, fill: "transparent", "data-hit": 1 }, svg);
+    resG = el("g", {}, svg);
+    line = el("line", { stroke: "var(--ink)", "stroke-width": 2, "stroke-linecap": "round" }, svg);
+    ptG = el("g", {}, svg);
+    draw();
+  }
+
   function draw() {
+    if (!ptG) return;
     const f = fit();
     resG.replaceChildren();
     const showRes = $("reg-res").checked;
@@ -546,9 +531,8 @@ const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0)
 
     ptG.replaceChildren();
     pts.forEach((p, i) => {
-      const c = el("circle", { cx: sx(p.x), cy: sy(p.y), r: 6, fill: "var(--s1)", stroke: "var(--surface)", "stroke-width": 2, class: "pt" }, ptG);
+      el("circle", { cx: sx(p.x), cy: sy(p.y), r: 6, fill: "var(--s1)", stroke: "var(--surface)", "stroke-width": 2, class: "pt", "data-i": i }, ptG);
       el("circle", { cx: sx(p.x), cy: sy(p.y), r: 14, fill: "transparent", class: "pt", "data-i": i }, ptG);
-      c.dataset.i = i;
     });
 
     $("reg-r2").textContent = f ? fmt(f.r2) : "—";
@@ -559,7 +543,7 @@ const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0)
   }
 
   let drag = null;
-  ptG.addEventListener("pointerdown", (e) => {
+  svg.addEventListener("pointerdown", (e) => {
     const i = e.target.dataset.i;
     if (i === undefined) return;
     drag = +i;
@@ -583,12 +567,13 @@ const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0)
   });
   svg.addEventListener("pointerup", () => { drag = null; });
   svg.addEventListener("pointerleave", hideTip);
-  hit.addEventListener("click", (e) => {
+  svg.addEventListener("click", (e) => {
+    if (!e.target.dataset.hit) return;
     const p = svgPoint(svg, e);
     pts.push({ x: ix(p.x), y: iy(p.y) });
     draw();
   });
-  ptG.addEventListener("dblclick", (e) => {
+  svg.addEventListener("dblclick", (e) => {
     const i = e.target.dataset.i;
     if (i === undefined) return;
     pts.splice(+i, 1); hideTip(); draw();
@@ -597,56 +582,66 @@ const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0)
   $("reg-reset").addEventListener("click", () => { seed(); draw(); });
   $("reg-outlier").addEventListener("click", () => { pts.push({ x: 9.2, y: 0.4 }); draw(); });
 
-  seed(); draw();
+  seed();
+  fitSvg(svg, render);
 })();
 
 /* ------------------------------------------------ 02 Clasificación */
 (function classification() {
   const svg = $("cls-svg");
-  const box = { l: 112, r: 620, t: 18, b: 300 };
-  const sx = scale(0, 1, box.l, box.r), ix = scale(box.l, box.r, 0, 1);
-  const lanes = [{ cls: 1, name: "Sobrevivió", y: 90, color: "var(--s1)" }, { cls: 0, name: "No sobrevivió", y: 225, color: "var(--s2)" }];
+  const lanes = [{ cls: 1, name: "Sobrevivió", color: "var(--s1)" }, { cls: 0, name: "No sobrevivió", color: "var(--s2)" }];
 
   const r = rng(11);
   const data = [];
   for (let i = 0; i < 52; i++) data.push({ cls: 1, p: Math.min(0.98, Math.max(0.02, 0.66 + gauss(r) * 0.18)), j: r() });
   for (let i = 0; i < 84; i++) data.push({ cls: 0, p: Math.min(0.98, Math.max(0.02, 0.3 + gauss(r) * 0.17)), j: r() });
 
-  // Fondo de la zona "predice sobrevive"
-  const zone = el("rect", { y: box.t, height: box.b - box.t, fill: "var(--grid)" }, svg);
-  const g = el("g", { class: "axis" }, svg);
-  [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
-    el("text", { x: sx(t), y: box.b + 20, "text-anchor": "middle" }, g).textContent = String(t).replace(".", ",");
-  });
-  el("line", { x1: box.l, x2: box.r, y1: box.b, y2: box.b, class: "baseline" }, g);
-  el("text", { x: (box.l + box.r) / 2, y: box.b + 44, "text-anchor": "middle", class: "axis-title" }, g).textContent = "Probabilidad predicha de sobrevivir";
-  lanes.forEach((l) => {
-    el("text", { x: box.l - 14, y: l.y + 4, "text-anchor": "end", class: "axis-title" }, g).textContent = l.name;
-  });
+  let box, sx, ix, zone, zoneLabelL, zoneLabelR, tLine, tHandle, tHit, dots = [];
 
-  const zoneLabelL = el("text", { y: box.b - 12, class: "tick-label" }, svg);
-  const zoneLabelR = el("text", { y: box.b - 12, class: "tick-label" }, svg);
-  const dotG = el("g", {}, svg);
-  const tLine = el("line", { y1: box.t, y2: box.b, stroke: "var(--ink)", "stroke-width": 2 }, svg);
-  const tHandle = el("rect", { y: box.t - 2, width: 14, height: 22, rx: 4, fill: "var(--ink)", style: "cursor:ew-resize" }, svg);
-  const tHit = el("rect", { y: box.t, width: 24, height: box.b - box.t, fill: "transparent", style: "cursor:ew-resize" }, svg);
+  function render(W, H) {
+    box = { l: 112, r: W - 20, t: 18, b: H - 56 };
+    sx = scale(0, 1, box.l, box.r); ix = scale(box.l, box.r, 0, 1);
+    const ph = box.b - box.t;
+    lanes[0].y = box.t + ph * 0.27; lanes[1].y = box.t + ph * 0.73;
 
-  const dots = data.map((d) => {
-    const lane = lanes.find((l) => l.cls === d.cls);
-    const c = el("circle", { cx: sx(d.p), cy: lane.y + (d.j - 0.5) * 92, r: 5.5, "stroke-width": 2 }, dotG);
-    c.addEventListener("pointermove", (e) => showTip(e, `${lane.name}<br>p = ${fmt(d.p)} → ${d.p >= +$("cls-t").value ? "predice: sobrevive" : "predice: no sobrevive"}`));
-    c.addEventListener("pointerleave", hideTip);
-    return { d, c, lane };
-  });
+    // Fondo de la zona "predice sobrevive"
+    zone = el("rect", { y: box.t, height: ph, fill: "var(--grid)" }, svg);
+    const g = el("g", { class: "axis" }, svg);
+    [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+      el("text", { x: sx(t), y: box.b + 20, "text-anchor": "middle" }, g).textContent = String(t).replace(".", ",");
+    });
+    el("line", { x1: box.l, x2: box.r, y1: box.b, y2: box.b, class: "baseline" }, g);
+    el("text", { x: (box.l + box.r) / 2, y: box.b + 44, "text-anchor": "middle", class: "axis-title" }, g).textContent = "Probabilidad predicha de sobrevivir";
+    lanes.forEach((l) => {
+      el("text", { x: box.l - 14, y: l.y + 4, "text-anchor": "end", class: "axis-title" }, g).textContent = l.name;
+    });
+
+    zoneLabelL = el("text", { y: box.b - 12, class: "tick-label", "text-anchor": "end" }, svg);
+    zoneLabelR = el("text", { y: box.b - 12, class: "tick-label" }, svg);
+    zoneLabelL.textContent = "← predice: no"; zoneLabelR.textContent = "predice: sí →";
+    const dotG = el("g", {}, svg);
+    tLine = el("line", { y1: box.t, y2: box.b, stroke: "var(--ink)", "stroke-width": 2 }, svg);
+    tHandle = el("rect", { y: box.t - 2, width: 14, height: 22, rx: 4, fill: "var(--ink)", style: "cursor:ew-resize", "data-handle": 1 }, svg);
+    tHit = el("rect", { y: box.t, width: 24, height: ph, fill: "transparent", style: "cursor:ew-resize", "data-handle": 1 }, svg);
+
+    const spread = Math.min(ph * 0.36, 160);
+    dots = data.map((d, i) => {
+      const lane = lanes.find((l) => l.cls === d.cls);
+      const c = el("circle", { cx: sx(d.p), cy: lane.y + (d.j - 0.5) * spread, r: 5.5, "stroke-width": 2, "data-i": i }, dotG);
+      return { d, c, lane };
+    });
+    draw();
+  }
 
   function draw() {
+    if (!tLine) return;
     const t = +$("cls-t").value;
     const x = sx(t);
     zone.setAttribute("x", x); zone.setAttribute("width", box.r - x);
     tLine.setAttribute("x1", x); tLine.setAttribute("x2", x);
     tHandle.setAttribute("x", x - 7); tHit.setAttribute("x", x - 12);
-    zoneLabelL.setAttribute("x", x - 10); zoneLabelL.setAttribute("text-anchor", "end"); zoneLabelL.textContent = "← predice: no";
-    zoneLabelR.setAttribute("x", x + 12); zoneLabelR.textContent = "predice: sí →";
+    zoneLabelL.setAttribute("x", x - 10);
+    zoneLabelR.setAttribute("x", x + 12);
     $("cls-t-label").textContent = fmt(t);
 
     let tp = 0, fp = 0, tn = 0, fn = 0;
@@ -673,29 +668,34 @@ const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0)
   }
 
   let dragging = false;
-  const moveTo = (e) => {
-    const p = svgPoint(svg, e);
-    $("cls-t").value = Math.max(0.05, Math.min(0.95, ix(p.x))).toFixed(2);
-    draw();
-  };
-  [tHit, tHandle].forEach((n) => n.addEventListener("pointerdown", (e) => { dragging = true; svg.setPointerCapture(e.pointerId); e.preventDefault(); }));
-  svg.addEventListener("pointermove", (e) => { if (dragging) moveTo(e); });
+  svg.addEventListener("pointerdown", (e) => {
+    if (!e.target.dataset.handle) return;
+    dragging = true; svg.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  svg.addEventListener("pointermove", (e) => {
+    if (dragging) {
+      const p = svgPoint(svg, e);
+      $("cls-t").value = Math.max(0.05, Math.min(0.95, ix(p.x))).toFixed(2);
+      draw(); return;
+    }
+    const i = e.target.dataset.i;
+    if (i === undefined) return hideTip();
+    const { d, lane } = dots[i];
+    showTip(e, `${lane.name}<br>p = ${fmt(d.p)} → ${d.p >= +$("cls-t").value ? "predice: sobrevive" : "predice: no sobrevive"}`);
+  });
   svg.addEventListener("pointerup", () => { dragging = false; });
+  svg.addEventListener("pointerleave", hideTip);
   $("cls-t").addEventListener("input", draw);
-  draw();
+  fitSvg(svg, render);
 })();
 
 /* ------------------------------------------------ 03 Clustering */
 (function kmeans() {
   const svg = $("km-svg");
-  const box = { l: 60, r: 620, t: 16, b: 320 };
   const X = [32, 60], Y = [170, 235];
-  const sx = scale(X[0], X[1], box.l, box.r), sy = scale(Y[0], Y[1], box.b, box.t);
-  axes(svg, box, { map: sx, ticks: [35, 40, 45, 50, 55, 60] }, { map: sy, ticks: [170, 180, 190, 200, 210, 220, 230] },
-    "Largo del pico (mm)", "Largo de la aleta (mm)");
+  let sx, sy, ptG, cG;
   const COLORS = ["var(--s1)", "var(--s2)", "var(--s3)"];
   const SHAPES = ["circle", "square", "triangle"];
-  const ptG = el("g", {}, svg), cG = el("g", {}, svg);
 
   const SPECIES = [
     { name: "Adelia", bill: [38.8, 2.6], flip: [190, 6.5] },
@@ -767,7 +767,24 @@ const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0)
     return el("path", { d: `M${x},${y - h * 1.1} L${x + h},${y + h * 0.75} L${x - h},${y + h * 0.75} Z`, "stroke-linejoin": "round", ...attrs }, parent);
   }
 
+  function render(W, H) {
+    const box = { l: 64, r: W - 16, t: 16, b: H - 56 };
+    sx = scale(X[0], X[1], box.l, box.r); sy = scale(Y[0], Y[1], box.b, box.t);
+    axes(svg, box, { map: sx, ticks: [35, 40, 45, 50, 55, 60] }, { map: sy, ticks: [170, 180, 190, 200, 210, 220, 230] },
+      "Largo del pico (mm)", "Largo de la aleta (mm)");
+    ptG = el("g", {}, svg); cG = el("g", {}, svg);
+    draw();
+  }
+
   function draw() {
+    const I = inertia();
+    $("km-status").textContent = done
+      ? `Convergió en ${iter} iteraciones · inercia ${fmt(I, 1)}`
+      : `Iteración ${iter}${Number.isFinite(I) ? " · inercia " + fmt(I, 1) : ""}`;
+    $("km-step").textContent = phase === "assign" ? "Asignar puntos" : "Mover centroides";
+    $("km-step").disabled = done;
+    $("km-run").disabled = done;
+    if (!ptG) return;
     ptG.replaceChildren(); cG.replaceChildren();
     pts.forEach((p, i) => {
       const a = assign[i];
@@ -784,13 +801,6 @@ const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0)
       g.addEventListener("pointermove", (e) => showTip(e, `centroide ${j + 1}<br>pico ${fmt(c.x, 1)} · aleta ${fmt(c.y, 0)}`));
       g.addEventListener("pointerleave", hideTip);
     });
-    const I = inertia();
-    $("km-status").textContent = done
-      ? `Convergió en ${iter} iteraciones · inercia ${fmt(I, 1)}`
-      : `Iteración ${iter}${Number.isFinite(I) ? " · inercia " + fmt(I, 1) : ""}`;
-    $("km-step").textContent = phase === "assign" ? "Asignar puntos" : "Mover centroides";
-    $("km-step").disabled = done;
-    $("km-run").disabled = done;
   }
 
   function step() {
@@ -840,7 +850,7 @@ const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0)
     el("polyline", { points: vals.map((v, i) => `${ex(i + 1)},${ey(v)}`).join(" "), fill: "none", stroke: "var(--ink-2)", "stroke-width": 2, "stroke-linejoin": "round" }, elbow);
     vals.forEach((v, i) => {
       const on = i + 1 === k;
-      const c = el("circle", { cx: ex(i + 1), cy: ey(v), r: on ? 6 : 4, fill: on ? "var(--ink)" : "var(--surface)", stroke: "var(--ink-2)", "stroke-width": 2 }, elbow);
+      el("circle", { cx: ex(i + 1), cy: ey(v), r: on ? 6 : 4, fill: on ? "var(--ink)" : "var(--surface)", stroke: "var(--ink-2)", "stroke-width": 2 }, elbow);
       el("circle", { cx: ex(i + 1), cy: ey(v), r: 12, fill: "transparent" }, elbow)
         .addEventListener("pointermove", (e) => showTip(e, `k = ${i + 1} · inercia ${fmt(v, 1)}`));
       elbow.lastChild.addEventListener("pointerleave", hideTip);
@@ -859,7 +869,8 @@ const scale = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0)
     stop(); initCentroids(); draw(); drawElbow();
   });
 
-  genData(); initCentroids(rng(5)); draw(); drawElbow();
+  genData(); initCentroids(rng(5)); drawElbow();
+  fitSvg(svg, render);
 })();
 </script>
 </body>

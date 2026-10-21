@@ -211,6 +211,8 @@ figcaption { margin-top: 12px; color: var(--ink-2); font-size: 15px; max-width: 
 }
 .rail a:hover span { opacity: 1; transform: translate(0, -50%); }
 @media (min-width: 861px) { .rail { display: flex; } }
+/* Número de pantalla, para coordinar con el guion */
+.pageno { position: absolute; right: 16px; bottom: 12px; font: 400 12px var(--mono); color: var(--ink-3); font-variant-numeric: tabular-nums; pointer-events: none; }
 .xt { display: grid; grid-template-columns: auto repeat(3, 1fr); gap: 4px; font-size: 13.5px; }
 .xt .h { color: var(--ink-3); padding: 4px 8px; display: flex; align-items: end; }
 .xt .h.row { align-items: center; justify-content: end; }
@@ -1523,7 +1525,11 @@ document.querySelectorAll("code.py").forEach((c) => {
   const slides = [...document.querySelectorAll(".slide")];
   const nav = $("rail");
   let prev = null;
-  const marks = slides.map((s) => {
+  const marks = slides.map((s, idx) => {
+    const n = document.createElement("span");
+    n.className = "pageno";
+    n.textContent = `${idx + 1} / ${slides.length}`;
+    s.appendChild(n);
     const num = s.querySelector(".demo-head .num")?.textContent ?? "";
     const tag = s.querySelector(".demo-head .model")?.textContent ?? "";
     const sub = num === "00" ? s.querySelector(".demo-head h2").textContent : tag.startsWith("Modelo") ? "La pregunta" : tag;
@@ -1531,7 +1537,7 @@ document.querySelectorAll("code.py").forEach((c) => {
     const a = document.createElement("a");
     a.href = "#" + s.id;
     a.className = num !== prev ? "first" : "";
-    a.innerHTML = `<i></i><span>${name}</span>`;
+    a.innerHTML = `<i></i><span>${idx + 1} · ${name}</span>`;
     a.setAttribute("aria-label", name);
     nav.appendChild(a);
     prev = num;
